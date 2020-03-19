@@ -32,9 +32,12 @@ class Task(models.Model):
         if self.is_running:
             self.is_running = False
             self.last_finish = now
+            self.save()
+            self.history.create(end_time=now, duration=now - self.last_start)
         else:
             self.is_running = True
             self.last_start = now
+            self.save()
 
 
 class TaskHistory(models.Model):
