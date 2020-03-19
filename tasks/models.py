@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.utils import timezone
 
 
 class Task(models.Model):
@@ -8,6 +9,7 @@ class Task(models.Model):
     last_start = models.DateTimeField(null=True, default=None)
     last_finish = models.DateTimeField(null=True, default=None)
     avg_duration = models.DurationField(null=True, default=None)
+    is_running = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -24,6 +26,15 @@ class Task(models.Model):
             avg = sum(durations, datetime.timedelta(0)) / history_length
             return avg
         return None
+
+    def toggle(self):
+        now = timezone.now()
+        if self.is_running:
+            self.is_running = False
+            self.last_finish = now
+        else:
+            self.is_running = True
+            self.last_start = now
 
 
 class TaskHistory(models.Model):
