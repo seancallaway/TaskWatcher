@@ -32,6 +32,9 @@ class TaskHistory(models.Model):
     end_time = models.DateTimeField()
     duration = models.DurationField()
 
+    def __str__(self):
+        return f'History Item {self.id}'
+
     def save(self, *args, **kwargs):
         super(TaskHistory, self).save(*args, **kwargs)
         self.task.avg_duration = self.task.calc_avg_duration()
