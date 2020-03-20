@@ -1,5 +1,22 @@
 {% extends "_base.html" %}
 
 {% block body %}
-<h1>TaskWatcher</h1>
+
+  <h1>TaskWatcher</h1>
+
+  <h2>Tasks</h2>
+  <table class="table">
+    {% for task in tasks %}
+      <tr>
+        <td>{{ task.name }}</td>
+        <td>{% if not task.is_running %}Not{% endif %} Running</td>
+        <td>{% if task.avg_duration %}{{ task.avg_duration }}{% endif %}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td>No tasks being watched.</td>
+      </tr>
+    {% endfor %}
+  </table>
+
 {% endblock %}
